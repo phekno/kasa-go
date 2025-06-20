@@ -39,8 +39,7 @@ func (a *auth) generateUUID() error {
 
 func (a *auth) getRequest() (request, error) {
 	var r request
-	var err error
-	err = a.generateUUID()
+	err := a.generateUUID()
 	if err != nil {
 		return r, err
 	}

@@ -106,10 +106,13 @@ func (s smartPlug) Reboot() error {
 			RequestData: "{\"system\":{\"reboot\":{\"delay\":1}}}",
 		},
 	}).execute()
-	if err.Error() == "Request timeout" {
-		err = nil
+	// if err.Error() == "Request timeout" {
+	// 	err = nil
+	// }
+	if err != nil {
+		return err
 	}
-	return err
+	return nil
 }
 
 func (s smartPlug) ScanAPs() ([]AP, error) {

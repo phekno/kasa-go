@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"net/http"
 	"strconv"
 	"strings"
@@ -124,12 +124,15 @@ func (r authRequest) execute() (result, error) {
 func parseResponse(res *http.Response) (result, error) {
 	r := result{}
 	defer res.Body.Close()
-	bodyBytes, err := ioutil.ReadAll(res.Body)
+	bodyBytes, err := io.ReadAll(res.Body)
 	if err != nil {
 		return r, err
 	}
 	rb := reponseBody{}
 	err = json.Unmarshal(bodyBytes, &rb)
+	if err != nil {
+		return r, err
+	}
 	if rb.ErrorCode != codeNoError {
 		if rb.ErrorMessage == "" {
 			return r, fmt.Errorf("unknow API error")
